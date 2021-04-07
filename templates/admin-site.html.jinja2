@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Puzzle Massive Admin {%- if page and page.title %} | {{ page.title }}
+      {%- elif title %} | {{ title }}
+      {%- else %}{% block title %}{% endblock %}{% endif %}</title>
+
+    <meta name="description" content="{% block description %}{% if page and page.description %}{{ page.description }}{% endif %}{% endblock %}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block stylesheet %}
+    <link rel="stylesheet" media="all" href="{{ url_for('send_theme_file', filename='admin.bundle.css') }}">
+    {% endblock %}
+    {% include 'favicon.html.jinja2' %}
+
+    {% block headscript %}
+    {% endblock %}
+
+  </head>
+  <body>
+
+    {% block body %}
+    {% endblock %}
+
+    {% block script %}
+    <script src="{{ url_for('send_theme_file', filename='lazysizes.min.js') }}"></script>
+    <script src="{{ url_for('send_theme_file', filename='admin.bundle.js') }}"></script>
+    <script type="module" src="{{ url_for('send_theme_file', filename='alpine.js') }}"></script>
+
+    {% endblock %}
+
+  </body>
+</html>
+

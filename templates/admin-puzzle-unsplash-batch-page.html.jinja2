@@ -1,0 +1,125 @@
+{% extends 'admin-base.html.jinja2' %}
+
+{% block main %}
+
+  {% if not config.UNSPLASH_APPLICATION_ID %}
+  <p>
+    <strong>This site is not set up to use the Unsplash API.</strong>
+  </p>
+  {% else %}
+  <div x-data="form()" x-init="unsplashURLList=getUnsplashURLList()">
+  <script>
+    const unsplashPhotosBaseURL = "https://unsplash.com/photos/";
+    const normalizePhotoURL = new RegExp(`(${unsplashPhotosBaseURL}.*?/?[^/]*).*`);
+
+    function sanitizeURL (item) {
+      let unsplashPhotoURL = ""
+      try {
+        unsplashPhotoURL = (new URL(item, unsplashPhotosBaseURL)).href;
+      } catch (err) {
+      }
+      return unsplashPhotoURL;
+    }
+    function form() {
+      return {
+        unsplashBatchDrop: "",
+        unsplashURLList: [],
+        getUnsplashURLList() {
+          const uniqueUnsplashURLs = new Set(this.unsplashBatchDrop.split(/\s+/)
+            .filter((photoURL) => {
+              return photoURL.length > unsplashPhotosBaseURL.length + 3
+                && photoURL.startsWith(unsplashPhotosBaseURL);
+            })
+            .map(sanitizeURL)
+            .map((unsplashPhotoURL) => {
+              return unsplashPhotoURL.replace(normalizePhotoURL, '$1')
+            })
+          );
+          return [...uniqueUnsplashURLs].map((unsplashPhotoURL) => {
+            return {
+              href: unsplashPhotoURL,
+              unlisted: false,
+              {% if 'hidden-preview' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+              hidden_preview: false,
+              {% endif %}
+            };
+          });
+        }
+      };
+    }
+  </script>
+  <div>
+    <label for="unsplash-batch-drop">Unsplash Photo URLs</label>
+    <textarea cols=80 rows=10 class="u-block" id="unsplash-batch-drop" x-model="unsplashBatchDrop" x-on:input.debounce.1000="unsplashURLList=getUnsplashURLList()"></textarea>
+  </div>
+  <hr>
+    <form id="unsplash_batch" method="post" action="/newapi/admin/puzzle/unsplash-batch/"
+    x-ref="unsplashBatchForm">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Unlisted</th>
+
+            {% if 'hidden-preview' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+              <th>Hide Preview</th>
+            {% endif %}
+            {# TODO: Secret message not fully implemented.
+            {% if 'secret-message' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+            {% endif %}
+            #}
+            <th>Piece Count</th>
+            <th>Background Color</th>
+            <th>Unsplash Link</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <template x-for="(item, index, collection) in unsplashURLList" x-bind:key="item.href">
+          <tr>
+            <td>
+              <input type="hidden" name="unlisted" x-bind:value="item.unlisted">
+              <label class="u-block">
+                <input type="checkbox" x-model="item.unlisted">
+              </label>
+            </td>
+
+            {% if 'hidden-preview' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+              <td>
+                <input type="hidden" name="hidden_preview" x-bind:value="item.hidden_preview">
+                <label class="u-block">
+                  <input type="checkbox" x-model="item.hidden_preview">
+                </label>
+              </td>
+            {% endif %}
+            {# TODO: Secret message not fully implemented.
+            {% if 'secret-message' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+            {% endif %}
+            #}
+
+            <td>
+              <input type="number"
+                     min="{{ config.MINIMUM_PIECE_COUNT }}"
+                     max="{{ config.MAXIMUM_PIECE_COUNT }}"
+                     name="pieces" value="{{ config.MINIMUM_PIECE_COUNT }}">
+            </td>
+            <td>
+              <input class="u-textCenter" type="color" name="bg_color" value="#484662">
+            </td>
+            <td>
+              <a x-bind:href="item.href" target="_blank"><small x-text="item.href"></small></a>
+              <input type="hidden" name="link" x-bind:value="item.href">
+            </td>
+          </tr>
+          </template>
+        </tbody>
+      </table>
+
+    <div class="u-textRight">
+      <input class="Button Button--primary" type="submit" value="Submit"/>
+    </div>
+    </form>
+    </div>
+  {% endif %}
+{% endblock %}
+

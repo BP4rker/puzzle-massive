@@ -1,0 +1,18 @@
+{% extends 'base.html.jinja2' %}
+{% set ngModule = 'docspage' %}
+
+{% block secondarymenu -%}
+
+{#- Insert site specific secondary menu links. -#}
+{%- if secondarymenu_template -%}
+{%- include secondarymenu_template -%}
+{%- endif -%}
+
+{%- endblock %}
+
+{% block main %}
+  <div class="pm-Doc">
+  {{ content|readfile|safe|shortcodes }}
+  </div>
+{% endblock %}
+

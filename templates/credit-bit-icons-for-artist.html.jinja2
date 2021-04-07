@@ -1,0 +1,13 @@
+{% macro creditlist(list) %}
+<span class="u-block">
+  <strong>Icon Count:</strong>
+  {{ list | length }}
+</span>
+
+  <strong>Icons used:</strong>
+    {%- for group_name in list|map(attribute='group_name')|unique -%}
+<div>
+			<img class="u-imgResponsive" alt="montage of {{ group_name }} bit icons" src="{{ url_for('send_media_file', filename='bit-icons/group-{}.jpg'.format(group_name)) }}">
+</div>
+    {%- endfor -%}
+{% endmacro %}

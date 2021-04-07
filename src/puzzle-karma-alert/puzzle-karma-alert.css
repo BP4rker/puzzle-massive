@@ -1,0 +1,40 @@
+/* 1. Default to not show karma alert status if above karma-level. */
+
+.pm-PuzzleKarmaAlert-status {
+  display: none;
+  color: black;
+  pointer-events: none;
+  opacity: 0; /* 1 */
+  position: fixed;
+  top: 100vh;
+  left: 100vw;
+  /* 40px is estimate width of scrollbars */
+  transform: translate(calc((2em + 40px) * -1), calc((2em + 40px) * -1));
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  z-index: 20;
+  font-weight: bold;
+  font-size: 1.7em;
+  text-shadow: 0 0 3px black, 0 0 6px white;
+  line-height: 2em;
+  transition: box-shadow 1s linear, background-color 1s linear;
+}
+.pm-PuzzleKarmaAlert-status.is-active {
+  display: block;
+}
+.pm-PuzzleKarmaAlert-status[data-karma-level="0"] {
+  color: black;
+  opacity: 1;
+  background-color: red;
+  box-shadow: 0 0 10px 25px red;
+}
+.pm-PuzzleKarmaAlert-status[data-karma-level="1"] {
+  color: orange;
+  opacity: 0.7;
+  box-shadow: 0 0 0px 0px black;
+  background-color: black;
+}
+.pm-PuzzleKarmaAlert-status[data-karma-level="2"] {
+  opacity: 0.5;
+}

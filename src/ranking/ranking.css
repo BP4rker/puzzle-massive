@@ -1,0 +1,30 @@
+.pm-Ranking {
+}
+
+.pm-Ranking-list {
+}
+
+.pm-Ranking-listitem {
+  margin-bottom: 10px;
+}
+
+.pm-Ranking-listitem--current {
+}
+
+.pm-Ranking-img {
+  display: inline-block;
+  min-width: calc(300px - 6em);
+}
+
+.pm-Ranking-listitem--current .pm-Ranking-img {
+  background-color: var(--color-dark-light);
+  border-radius: 10px;
+  box-shadow: 0 0 0px 10px var(--color-dark-light);
+}
+
+.pm-Ranking-rank {
+  display: inline-block;
+  margin-right: 10px;
+  text-align: right;
+  min-width: 6em;
+}

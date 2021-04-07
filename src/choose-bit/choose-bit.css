@@ -1,0 +1,46 @@
+@import "../site/viewport-breakpoints.css";
+
+.pm-ChooseBit {
+  min-width: 300px;
+  background-color: var(--designtoken-BackgroundColor-surface);
+  color: var(--designtoken-TextColor-onSurface);
+}
+
+.pm-ChooseBit-message {
+  width: 100%;
+  font-size: 1.7rem;
+}
+
+@media (--lg-viewport) {
+  .pm-ChooseBit-message {
+    width: auto;
+  }
+}
+
+.pm-ChooseBit-items {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pm-ChooseBit-item {
+  flex: none;
+  margin: 5px;
+  width: 64px;
+  min-width: 32px;
+  max-width: 5vw;
+  height: 64px;
+  min-height: 32px;
+  max-height: 5vw;
+  text-align: center;
+}
+
+.pm-ChooseBit-item img {
+  display: inline-block;
+  min-width: 24px;
+  max-width: 100%;
+  height: auto;
+  min-height: 24px;
+  font-size: 0;
+}

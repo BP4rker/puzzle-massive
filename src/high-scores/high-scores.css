@@ -1,0 +1,32 @@
+@import "../site/viewport-breakpoints.css";
+
+.pm-HighScores {
+}
+
+.pm-HighScores-list {
+}
+
+@media (--lg-viewport) {
+  .pm-HighScores-list {
+  }
+}
+
+.pm-HighScores-listitem {
+  margin-bottom: 10px;
+}
+
+.pm-HighScores-img {
+  min-width: calc(300px - 6em);
+}
+
+.pm-HighScores-score {
+  display: inline-block;
+  margin-right: 10px;
+  text-align: right;
+  min-width: 6em;
+}
+
+@media (--lg-viewport) {
+  .pm-HighScores-score {
+  }
+}

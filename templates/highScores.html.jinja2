@@ -1,0 +1,19 @@
+{% if value %}
+{% if value is mapping -%}
+  {% set value = [value] %}
+{%- endif %}
+<div class="pm-HighScores">
+  <h2>High Scores</h2>
+  <p>
+  As of {{ chill_now|datetime('Y-MM-dd HH:mm') }} UTC.
+  </p>
+  <div class="pm-HighScores-list" role="list">
+    {% for item in value %}
+      <div class="pm-HighScores-listitem">
+        <strong class="pm-HighScores-score">{{item.score}}</strong>
+        <pm-player-bit player="{{ item.id }}"></pm-player-bit>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{%- endif %}

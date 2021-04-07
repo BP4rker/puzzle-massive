@@ -1,0 +1,36 @@
+{% from 'preview-unknown.html.jinja2' import preview_unknown %}
+{% macro montage(puzzles, default_checked=False, itemwidth=100) -%}
+<div class="pma-Montage">
+  <div class="pma-Montage-list" role="list">
+    {% for item in puzzles %}
+      {% set width = item.long if item.table_width > item.table_height else item.short %}
+      {% set height = item.short if item.table_width > item.table_height else item.long %}
+      {% set src = item.url if item.url else '' %}
+
+      <div class="pma-Montage-listitem" role="listitem" style="width:{{ itemwidth }}px;">
+        <div>
+        <label for="puzzle_id_{{item.puzzle_id}}">
+          <input id="puzzle_id_{{item.puzzle_id}}" name="montage_puzzle_id" type="checkbox" value="{{item.puzzle_id}}" {% if default_checked %}checked{% endif %}>
+
+          {% if src == '' %}
+          {{ preview_unknown(width=width, height=height) }}
+          {% else %}
+          <img class="u-block lazyload" width="{{width|int}}" height="{{height|int}}" data-src="{{src}}" alt="" style="max-width:100%;height:auto;">
+          {% endif %}
+          <small>pieces:</small>{{item.pieces}}
+        </label>
+        </div>
+
+        <a class="u-textTruncate" target="_blank" href="/chill{{ url_for('.page_uri', uri='front/{0}'.format(item.puzzle_id)) }}">
+          <small>
+          {{item.status}}
+          {{item.puzzle_id}}
+          </small>
+        </a>
+        {% if item.permission == -1 %}<small class="u-block">private</small>{% endif %}
+        {% if item.has_hidden_preview %}<small class="u-block">hidden-preview</small>{% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{%- endmacro %}

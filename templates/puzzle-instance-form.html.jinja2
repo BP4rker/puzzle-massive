@@ -1,0 +1,182 @@
+{% from 'preview-unknown.html.jinja2' import preview_unknown %}
+
+{% set COMPLETED        = 3   %}
+{% set width = puzzle.long if puzzle.table_width > puzzle.table_height else puzzle.short %}
+{% set height = puzzle.short if puzzle.table_width > puzzle.table_height else puzzle.long %}
+
+
+{% if config.MINIMUM_PIECE_COUNT > puzzle.pieces %}
+    {% set piece_count = config.MINIMUM_PIECE_COUNT %}
+{% else %}
+    {% set piece_count = puzzle.pieces %}
+{% endif %}
+<form enctype="multipart/form-data" id="puzzle-instance-form" method="post" action="/newapi/puzzle-instance/"
+x-data="puzzleInstanceForm()">
+<script>
+function puzzleInstanceForm() {
+    return {
+        copypuzzlepieces: false,
+        pieces: {{ piece_count }},
+        {% if not feature_hidden_preview %}
+        feature_hidden_preview: false,
+        canPreviewBeVisible() { return true },
+        {% else %}
+        feature_hidden_preview: true,
+        canPreviewBeVisible() { return false },
+        {% endif %}
+        secret_message: "",
+        feature_secret_message: false,
+        checkSecretMessage(ev) {
+            this.feature_secret_message = !!this.secret_message.trim()
+        },
+        {% if puzzle.permission == -1 -%} {# PRIVATE #}
+        unlisted: true,
+        canBePublic() { return false }
+        {% else %}
+        unlisted: false,
+        canBePublic() { return this.copypuzzlepieces === true ? false : true }
+        {% endif %}
+    }
+}
+</script>
+  <input type="hidden" name="puzzle_id" value="{{puzzle.puzzle_id}}">
+
+  <div class="pm-UploadForm">
+
+    <div class="pm-UploadForm-row">
+      <span>
+        Image
+      </span>
+      <div>
+        {% if puzzle.link and (not feature_hidden_preview or puzzle.status == COMPLETED) -%}
+        <small class="pm-Preview-source u-textTruncate u-block">
+          Picture source:
+        <a href="{{puzzle.link}}" rel="nofollow">
+          {{puzzle.link|replace('http://', '')|replace('https://', '')}}
+        </a>
+        </small>
+        {%- endif %}
+        {% if puzzle.url == '' or (feature_hidden_preview and puzzle.status != COMPLETED) %}
+          {{ preview_unknown(width=width, height=height, class="pm-Preview-img", style="font-size:3em;") }}
+        {% else %}
+          <img class="pm-Preview-img" width="{{width|int}}" height="{{height|int}}" src="{{puzzle.url|safe}}" alt="">
+        {% endif %}
+        {% if puzzle.attribution and (not feature_hidden_preview or puzzle.status == COMPLETED) -%}
+        <p class="pm-Preview-attribution">{{ '[chill route /internal/attribution/{}/ ]'.format(puzzle.attribution)|shortcodes }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="pm-UploadForm-row">
+      <label for="bg_color">
+        Background Color
+        <pm-icon size="lg" class="u-block">paint-can-sprite</pm-icon>
+      </label>
+      <input id="bg_color" class="jscolor pm-UploadForm-colorPicker u-textCenter" type="text" name="bg_color" value="{{ puzzle.bg_color }}">
+    </div>
+
+    {% if 'hidden-preview' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+    <div class="pm-UploadForm-row">
+      <label for="feature-hidden-preview">
+        Hide Preview Image
+      </label>
+      <div>
+        <input type="checkbox" id="feature-hidden-preview" name="features" value="hidden-preview" x-model="feature_hidden_preview" x-bind:disabled="!canPreviewBeVisible()">
+        <p x-cloak x-show="!canPreviewBeVisible()">
+          {% if puzzle.status == COMPLETED -%}
+            The source puzzle has the preview image hidden.  This puzzle instance will also need to have the preview image hidden.
+          {%- endif %}
+        </p>
+        <p x-show="canPreviewBeVisible()">
+          Check this box to hide the preview image.  Any links to the original puzzle image will also not show until after the puzzle is complete.
+        </p>
+      </div>
+    </div>
+    {% endif %}
+
+    {# TODO: Secret message not fully implemented.
+    {% if 'secret-message' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+    <div class="pm-UploadForm-row">
+      <label for="feature-secret-message">
+        Secret Message
+      </label>
+      <div>
+        <input id="feature-secret-message" type="checkbox" name="features" value="secret-message" x-model="feature_secret_message">
+        <div style="width: 100%" x-show="feature_secret_message">
+        <p>
+          <label for="secret-message">
+          Add a message to show to players when they complete the puzzle.
+          </label>
+        </p>
+        <textarea maxlength="1000" id="secret-message" name="secret_message" x-model="secret_message" x-on:input.debounce="checkSecretMessage"></textarea>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    #}
+
+    <div class="pm-UploadForm-row">
+      <label for="permission">
+        Unlisted
+      </label>
+      <div>
+        <input type="checkbox" id="permission" name="permission" value="-1" x-model="unlisted" x-bind:disabled="!canBePublic()">
+        <p x-cloak x-show="!canBePublic()">
+          {% if puzzle.permission == -1 -%} {# PRIVATE #}
+            The source puzzle is unlisted on the site.  Creating a copy of it and making it publicly listed on the site is not allowed.
+          {%- else -%}
+            Copied puzzles can not be publicly listed. Un-check the "Copy Pieces" checkbox to have this puzzle publicly listed on the site.
+          {%- endif %}
+        </p>
+        <p x-show="canBePublic()">
+          Check this box to <em>not</em> have this puzzle publicly listed on the site.
+        </p>
+      </div>
+    </div>
+
+    <div x-cloak class="pm-UploadForm-row">
+      <label for="copypuzzlepieces">
+        Copy Pieces
+      </label>
+      <div>
+        <input type="checkbox" id="copypuzzlepieces" name="fork" value="1" x-model="copypuzzlepieces" x-on:change="pieces = {{ piece_count }}; unlisted = true">
+        <p>
+        Copy pieces and current piece positions from the puzzle instead of rendering new puzzle with a different piece count.
+        </p>
+      </div>
+    </div>
+
+    <div class="pm-UploadForm-row">
+      <label for="pieces">
+        Piece Count
+      </label>
+      <div>
+        <input type="number"
+               min="{{ config.MINIMUM_PIECE_COUNT }}"
+               max="50000"
+               x-bind:disabled="copypuzzlepieces"
+               x-model="pieces"
+               id="pieces" name="pieces">
+        <p x-cloak x-show="copypuzzlepieces">
+        The new puzzle instance will copy the existing pieces and their current position.
+        </p>
+        <p x-show="!copypuzzlepieces">
+        When the puzzle is being rendered try to create this many pieces from the image.
+        </p>
+      </div>
+    </div>
+
+
+    {# TODO: Should a new instance description be allowed?  It could show after the original description.
+    #}
+    <div class="pm-UploadForm-row">
+      <label for="instance_description">Instance Description</label>
+      <textarea id="instance_description" name="instance_description" maxlength="1000"></textarea>
+    </div>
+
+
+    <div class="u-textRight">
+      <input class="Button Button--primary" type="submit" name="create" value="Create Instance" />
+    </div>
+  </div>
+</form>

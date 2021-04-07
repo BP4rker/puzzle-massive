@@ -1,0 +1,81 @@
+# Use of colors loosely follow Material Design guidelines.
+# https://www.material.io/design/color/
+
+imports:
+  - ../color.yaml
+global:
+  type: color
+  category: text-color
+
+props:
+  TextColor-onBackground:
+    value: "{!color-light-contrast-high}"
+  TextColor-onBackground--medium:
+    value: "{!color-light-contrast-medium}"
+  TextColor-onBackground--disabled:
+    value: "{!color-light-contrast-disabled}"
+  TextColor-onSurface:
+    value: "{!color-light-contrast-high}"
+  TextColor-onSurface--medium:
+    value: "{!color-light-contrast-medium}"
+  TextColor-onSurface--disabled:
+    value: "{!color-light-contrast-disabled}"
+
+  TextColor-onPrimary:
+    value: "{!color-primary-contrast}"
+  TextColor-onPrimary--disabled:
+    value: "{!color-primary-contrast-disabled}"
+  TextColor-onSecondary:
+    value: "{!color-secondary-contrast}"
+  TextColor-onSecondary--disabled:
+    value: "{!color-secondary-contrast-disabled}"
+  TextColor-onTertiary:
+    value: "{!color-tertiary-contrast}"
+  TextColor-onAccent:
+    value: "{!color-accent-contrast}"
+  TextColor-onError:
+    value: "{!color-error-contrast}"
+  TextColor-onDark:
+    value: "{!color-dark-contrast}"
+  TextColor-onDark--medium:
+    value: "{!color-dark-contrast-medium}"
+  TextColor-onDark--disabled:
+    value: "{!color-dark-contrast-disabled}"
+  TextColor-onLight:
+    value: "{!color-light-contrast}"
+  TextColor-onLight--medium:
+    value: "{!color-light-contrast-medium}"
+  TextColor-onLight--disabled:
+    value: "{!color-light-contrast-disabled}"
+  TextColor-primaryOnBackground:
+    value: "{!color-primary-dark}"
+    comment: Link text color
+  TextColor-primaryOnSurface:
+    value: "{!color-primary-dark}"
+    comment: Link text color
+
+  TextColor-secondaryOnSurface:
+    value: "{!color-secondary}"
+    comment: One Word Attribute
+  TextColor-secondaryOnDark:
+    value: "{!color-secondary}"
+    comment: Logo
+
+  TextColor-tertiaryOnSurface:
+    value: "{!color-tertiary}"
+    comment: One Word Attribute
+  TextColor-tertiaryOnBackground:
+    value: "{!color-tertiary}"
+    comment: Logo
+  TextColor-tertiaryOnDark:
+    value: "{!color-tertiary}"
+    comment: Logo
+
+  TextColor-accentOnSurface:
+    value: "{!color-accent}"
+    comment: One Word Attribute
+
+  TextColor-errorOnSurface:
+    value: "{!color-error}"
+    comment: One Word Attribute
+

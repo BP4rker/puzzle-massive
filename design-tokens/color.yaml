@@ -1,0 +1,75 @@
+aliases:
+  # Dark grays
+  color-dark: "#221716"
+  color-dark-contrast: "white"
+  color-dark-contrast-high: "rgba(255,255,255,0.87)"
+  color-dark-contrast-medium: "rgba(255,255,255,0.60)"
+  color-dark-contrast-disabled: "rgba(255,255,255,0.38)"
+  color-dark-dark: "#000105"
+  color-dark-light: "#43434e"
+  color-dark-accent: "#1A0E2F"
+
+  # Light grays
+  color-light: "hsl(0, 0%, 96%)"
+  color-light-contrast: "black"
+  color-light-contrast-high: "rgba(0,0,0,0.87)"
+  color-light-contrast-medium: "rgba(0,0,0,0.60)"
+  color-light-contrast-disabled: "rgba(0,0,0,0.38)"
+  color-light-dark: "hsl(0, 0%, 90%)"
+  color-light-light: "hsl(0, 0%, 98%)"
+  color-light-accent: "#F3EDFC"
+
+  # Primary
+  # orange
+  color-primary: "#e58b1c"
+  color-primary-contrast: "black"
+  color-primary-contrast-high: "rgba(0,0,0,0.87)"
+  color-primary-contrast-medium: "rgba(0,0,0,0.60)"
+  color-primary-contrast-disabled: "rgba(0,0,0,0.38)"
+  color-primary-dark: "#c37513"
+  color-primary-light: "#eeab59"
+  color-primary-accent: "#E9B02D"
+
+  # Secondary
+  # dark purple
+  color-secondary: "#4b376d"
+  color-secondary-contrast: "white"
+  color-secondary-contrast-high: "rgba(255,255,255,0.87)"
+  color-secondary-contrast-medium: "rgba(255,255,255,0.60)"
+  color-secondary-contrast-disabled: "rgba(255,255,255,0.38)"
+  color-secondary-dark: "#3F2E58"
+  color-secondary-light: "#6e509f"
+  color-secondary-accent: "#4C2B5F"
+
+  # Tertiary
+  # blue
+  color-tertiary: "#325292"
+  color-tertiary-contrast: "white"
+  color-tertiary-contrast-high: "rgba(255,255,255,0.87)"
+  color-tertiary-contrast-medium: "rgba(255,255,255,0.60)"
+  color-tertiary-contrast-disabled: "rgba(255,255,255,0.38)"
+  color-tertiary-dark: "#1c2d51"
+  color-tertiary-light: "#3B60AB"
+  color-tertiary-accent: "#2655B5"
+
+  # Accent
+  # purple
+  color-accent: "#7942d9"
+  color-accent-contrast: "white"
+  color-accent-contrast-high: "rgba(255,255,255,0.87)"
+  color-accent-contrast-medium: "rgba(255,255,255,0.60)"
+  color-accent-contrast-disabled: "rgba(255,255,255,0.38)"
+  color-accent-dark: "#6b2ed3"
+  color-accent-light: "#9d75e3"
+  color-accent-accent: "#402269"
+
+  # Error
+  # pirpol
+  color-error: "#D94542"
+  color-error-contrast: "black"
+  color-error-contrast-high: "rgba(0,0,0,0.87)"
+  color-error-contrast-medium: "rgba(0,0,0,0.60)"
+  color-error-contrast-disabled: "rgba(0,0,0,0.38)"
+  color-error-dark: "#9E211F"
+  color-error-light: "#D75057"
+  color-error-accent: "#EB4048"

@@ -1,0 +1,85 @@
+@import "../site/viewport-breakpoints.css";
+
+.pm-Header {
+  border-bottom: 2px solid var(--designtoken-BackgroundColor-background--dark);
+  background-color: var(--designtoken-BackgroundColor-background--accent);
+  color: var(--designtoken-TextColor-onBackground);
+}
+
+.pm-Header-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: calc(100vw - 20px);
+}
+.pm-Header-content > * {
+  padding: 10px;
+  padding: 4px;
+}
+
+.pm-Header-profile {
+  flex: none;
+  max-width: 100px;
+  width: calc(32px + (4px * 2));
+  margin-left: 20px;
+}
+
+@media (--md-viewport) {
+  .pm-Header-profile {
+    width: calc(64px + (4px * 2));
+  }
+}
+@media (--lg-viewport) {
+  .pm-Header-profile {
+    width: calc(64px + (4px * 2));
+  }
+}
+
+.pm-Header-logo {
+  width: calc(222px + (4px * 2));
+  height: 64px;
+  margin-left: 10px;
+}
+@media (min-width: 360px) {
+  .pm-Header-logo {
+    width: calc(122px + (4px * 2));
+  }
+}
+@media (min-width: 460px) {
+  .pm-Header-logo {
+    width: calc(222px + (4px * 2));
+  }
+}
+@media (min-width: 680px) {
+  .pm-Header-logo {
+    width: 280px;
+    height: 94px;
+  }
+}
+
+.pm-Header-main {
+  text-align: right;
+  flex: 1 auto;
+  height: 70px;
+  width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  --PlayerPuzzleInstanceList-width: 170px;
+}
+@media (--md-viewport) {
+  .pm-Header-main {
+    height: 100px;
+    --PlayerPuzzleInstanceList-width: 300px;
+  }
+}
+@media (--lg-viewport) {
+  .pm-Header-main {
+    height: 100px;
+    --PlayerPuzzleInstanceList-width: 300px;
+  }
+}
+
+.pm-Header-main > * + * {
+  margin-top: 5px;
+}

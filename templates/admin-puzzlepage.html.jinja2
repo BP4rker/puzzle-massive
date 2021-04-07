@@ -1,0 +1,343 @@
+{% extends 'admin-base.html.jinja2' %}
+{% from 'montage.html.jinja2' import montage %}
+{% from 'suggested-list.html.jinja2' import suggested_list %}
+
+{% block title %}
+ | Puzzle Management
+{%- endblock %}
+
+{% block description %}
+  Puzzle management
+{% endblock %}
+
+{% block main %}
+
+<section>
+  <h1>
+      Puzzle Management
+   - {{ slug }}
+  </h1>
+
+
+  {# info on all admin/puzzle/* pages #}
+  <div class="pma-PuzzleActions">
+    {% set count_all = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', 1) | sum(attribute='total') + admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', 2) | sum(attribute='total') %}
+
+    {% set count_completed = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', 3) | sum(attribute='total') %}
+
+    {% set count_submitted = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', 0) | sum(attribute='total') %}
+
+    {% set count_suggested = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', -20) | sum(attribute='total') %}
+
+    {% set count_rejected = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', -1) | sum(attribute='total') + admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', -2) | sum(attribute='total') %}
+
+    {% set count_render_queue = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', -5) | sum(attribute='total') %}
+    {% set count_rendering = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', -6) | sum(attribute='total') %}
+    {% set count_render_fail = admin_puzzle_menu.puzzle_status_count | selectattr('status', 'equalto', -7) | sum(attribute='total') %}
+
+    <h2>Actions</h2>
+    <nav class="pma-PuzzleActions-nav">
+      <a target="_blank" href="/chill{{ url_for('.page_uri', uri='new-puzzle/{}'.format(config.NEW_PUZZLE_CONTRIB)) }}">
+        Upload Puzzle Form
+      </a>
+      {% if config.UNSPLASH_APPLICATION_ID %}
+        <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/unsplash-batch') }}">
+        Unsplash Batch Add
+        </a>
+      {% endif %}
+
+      <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/active') }}">
+      Active
+      </a>
+      <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/in_queue') }}">
+      In Queue
+      </a>
+      <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/instances') }}">
+      Instances
+      </a>
+      <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/completed') }}">
+      Completed {# TODO: not accurate {{count_completed}} #}
+      </a>
+      <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/submitted') }}">
+        Submitted {{count_submitted}}
+      </a>
+      <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/suggested') }}">
+        Suggested {{count_suggested}}
+      </a>
+      <span>
+        Rejected {{count_rejected}}
+      </span>
+      <a href="/chill{{ url_for('.page_uri', uri='admin/puzzle/renderqueue') }}">
+        {% if count_render_queue > 0 %}
+        Render Queue
+        {{count_render_queue}}
+        {% endif %}
+        {% if count_rendering > 0 %}
+        Rendering
+        {{count_rendering}}
+        {% endif %}
+        {% if count_render_fail > 0 %}
+        failed:
+        {{count_render_fail}}
+        {% endif %}
+      </a>
+
+      {# Drop render button as it is now automatic
+      <a href="/newapi/admin/puzzle/render/">
+        Render
+      </a>
+      #}
+      {#
+      <a href="admin/puzzle/random/">
+      auto generated
+      </a>
+      <a href="admin/puzzle/untagged/">
+      not tagged
+      </a>
+      #}
+    </nav>
+
+  </div>
+
+
+    {# if it's a page that lists a bunch of puzzles #}
+    {% if puzzles %}
+    {#
+      TODO: javascript to hide tag text input if tag action not selected
+    #}
+    <form action="/newapi/admin/puzzle/batch-edit/" method="POST" x-ref="batchEditForm" x-data="batchEditData()">
+    <script>
+      function batchEditData() {
+        return {
+          action: "approve",
+          toggle($event, checkboxName) {
+            let checkboxes = document.getElementsByName(checkboxName);
+              for (let checkbox in checkboxes) {
+                  checkboxes[checkbox].checked = $event.target.checked;
+              }
+          }
+        };
+      }
+    </script>
+      {% if slug in ('submitted', 'renderqueue') %}
+      <div>
+        <label>
+          <input type="radio" name="action" value="approve" x-model="action">
+          {% if slug == 'submitted' %}
+          Approve
+          {% elif slug == 'renderqueue' %}
+          Render
+          {% endif %}
+        </label>
+      </div>
+      {% endif %}
+      {% if slug == 'completed' %}
+      <div>
+        <label>
+          <input type="radio" name="action" value="rebuild" x-model="action">
+          Rebuild
+        </label>
+      </div>
+      {% endif %}
+
+      <div>
+        <label>
+          <input type="radio" name="action" value="reject" x-model="action">
+          Reject
+        </label>
+
+        <div x-show="action === 'reject'">
+          Reject Reason:
+          <label>
+            Failed License
+            <input type="radio" name="reject" value="license">
+          </label>
+          <label>
+            No Attribution
+            <input type="radio" name="reject" value="attribution" checked>
+          </label>
+        </div>
+
+      </div>
+
+      <div>
+        <label>
+          <input type="radio" name="action" value="delete" x-model="action">
+          Delete
+        </label>
+
+        <div x-show="action === 'delete'">
+          Delete Reason
+          <label>
+            License
+            <input type="radio" name="delete" value="license">
+          </label>
+          <label>
+            Inappropiate
+            <input type="radio" name="delete" value="inapt">
+          </label>
+          <label>
+            Old
+            <input type="radio" name="delete" value="old">
+          </label>
+          <label>
+            Request
+            <input type="radio" name="delete" value="request" checked>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <label>
+          <input type="radio" name="action" value="edit" x-model="action">
+          Edit
+        </label>
+
+        <div x-show="action === 'edit'">
+          Attributes
+          {% if slug in ('active', 'in_queue', 'instances', 'submitted') %}
+          {# Completed puzzles may have had their pieces removed, so shouldn't move them to be private. #}
+          <label>
+            Make Unlisted
+            <input type="radio" name="edit" value="private">
+          </label>
+          {% endif %}
+        </div>
+      </div>
+
+      {# TODO: tagging is not implemented yet.
+      <div>
+        <label>
+          <input type="radio" name="action" value="tag">
+          Tag
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Tag
+          <input type="text" name="tag">
+        </label>
+      </div>
+      #}
+
+      <div>
+      <label>
+      <input type="checkbox" x-on:click="toggle($event, 'montage_puzzle_id')">
+      Toggle all
+      </label>
+      </div>
+
+      <input type="submit" value="Batch Edit">
+
+      {% if puzzles is mapping -%}
+        {% set puzzles = [puzzles] %}
+      {%- endif %}
+
+      {% if slug in ('active', 'in_queue', 'completed', 'instances') %}
+        {{ montage(puzzles, default_checked=False, itemwidth=128) }}
+
+      {% elif slug == 'submitted' %}
+        {{ montage(puzzles, default_checked=True, itemwidth=384) }}
+
+      {% elif slug == 'renderqueue' %}
+        {{ montage(puzzles, default_checked=True, itemwidth=384) }}
+
+      {% elif slug == 'suggested' %}
+        {{ suggested_list(puzzles) }}
+
+      {% endif %}
+
+    </form>
+    {% endif %}
+
+
+<!--
+
+admin_puzzle_[submitted, untagged, random, suggested, details]_page
+  admin_puzzle_menu
+    puzzle_count_all
+    puzzle_count_complete
+    puzzle_count_needs_moderation
+    puzzle_count_rejected
+    ...
+
+  puzzles - set to all, untagged, etc.
+
+  batch-actions
+    approve
+    reject
+    delete
+    tag
+
+  detail
+    actions
+      delete
+      tag
+      sponsor
+      copy
+    info
+      copies (private instances)
+      sponsors
+      pieces (24, 500, 1500)
+
+routes
+  /admin/puzzle/
+
+  /admin/puzzle/all/
+  /admin/puzzle/submitted/
+  /admin/puzzle/untagged/
+  /admin/puzzle/random/
+  /admin/puzzle/suggested/
+
+  /admin/puzzle/details/puzzle_id
+
+
+--------
+
+
+info:
+  count of puzzles
+  for each filter button show how many puzzles are in each.
+
+filter buttons:
+  all new puzzles to be moderated and created
+    action: moderate new; one click approve and render
+      only for batch of unmoderated
+
+  auto created from random photos
+    show as montage grid
+    able to select multiple in order to do actions
+
+  goto puzzle with id
+    for editing a single puzzle details
+
+  all puzzles
+    show as montage grid
+    able to select multiple in order to do actions
+
+  not tagged
+    show as montage grid
+    able to select multiple in order to do actions
+
+  sponsored
+
+actions on batch:
+  delete
+  tagging
+
+
+actions on single:
+  edit details on a puzzle
+
+new features:
+  tagging
+  sponsored details
+  copy for a private instance
+    add list of players that have access
+
+-->
+
+</section>
+
+{% endblock %}

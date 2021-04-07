@@ -1,0 +1,81 @@
+{% extends 'base.html.jinja2' %}
+{% set ngModule = 'profilepage' %}
+
+  {% block secondarymenu %}
+    <span class="Button Button--plain is-disabled">
+      Player Profile
+    </span>
+    <a class="Button Button--plain" href="/chill{{ url_for('.page_uri', uri='player-puzzle-list') }}">
+      Your Puzzles
+    </a>
+  {% endblock %}
+
+{% block main %}
+<section class="pm-Doc">
+  <h1>Player Profile</h1>
+
+  <pm-profile-bit media-path="{{ url_for('send_media_file', filename='') }}" score dots name claim attribution player-profile-url="/chill{{ url_for('.page_uri', uri='player') }}"></pm-profile-bit>
+
+  <div class="pm-Doc-breakOut u-textCenter">
+    <details class="u-marginTopMd u-marginBottomMd">
+      <summary>Change Bit Icon</summary>
+        <pm-choose-bit limit="48" message="" media-path="{{ url_for('send_media_file', filename='') }}"></pm-choose-bit>
+    </details>
+  </div>
+
+  <details class="u-marginTopMd u-marginBottomMd">
+    <summary>Change Player Name</summary>
+    {% if config.POINT_COST_FOR_CHANGING_NAME %}
+    <p>Changing the player name will cost {{ config.POINT_COST_FOR_CHANGING_NAME }} dots. <small><em>Every day your balance will be set to a minimum of {{ config.NEW_USER_STARTING_POINTS }} dots.</em></small></p>
+    {% endif %}
+    <pm-dot-require min="{{ config.POINT_COST_FOR_CHANGING_NAME }}" type="blur">
+      <p>
+        The player name is <b>not</b> used when logging into your account
+        and can be anything that you would like. Names are limited to 26{# USER_NAME_MAXLENGTH #}
+        characters and must be unique from other player names.
+      </p>
+      <pm-player-name-register></pm-player-name-register>
+      <p>
+        Player names may be unapproved for any reason.
+      </p>
+    </pm-dot-require>
+  </details>
+
+  <div class="u-marginTopMd u-marginBottomMd">
+    <div class="pm-Profilepage-account">
+      <h2>Account</h2>
+      <div class="pm-Profilepage-accountActions">
+          {% if config.SMTP_HOST %}
+          <details class="pm-Profilepage-emailRegister u-marginTopMd u-marginBottomMd">
+            <summary>Register Your E-mail Address</summary>
+            <p>
+              Add your e-mail address for this player in case you lose your login.
+              Your information and e-mail address are not shared or displayed
+              publicly. This is only used for contacting you about your player
+              account on Puzzle Massive.  Future changes (newsletter, notifications,
+              etc.) that will use your e-mail to contact you will be in an opt-in
+              basis.
+            </p>
+            <pm-player-email-register>
+              {#
+              <!-- TODO: only should show if email is registered -->
+              <form action="subscribe">
+                newsletter
+                upcoming competitions
+                etc.
+              </form>
+              #}
+            </pm-player-email-register>
+          </details>
+          {% endif %}
+
+        <hr class="u-marginTopLg">
+        <div class="pm-Profilepage-anonymousLogin u-marginTopLg u-marginBottomMd">
+          <pm-account {% if config.SMTP_HOST %}email-configured{% endif %}></pm-account>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,363 @@
+!ChillNode
+name: frontpage
+route: /front/<puzzle_id>/
+template: front.html.jinja2
+value:
+  description_txt_file: sitewide-description.txt
+  content: _select-frontpage-pageimage-url.sql
+  canonical_path: /
+  page:
+    content: frontpage-content.html
+    description: Massively Multiplayer Online Jigsaw Puzzles
+    info: _frontpage-page-info-for-puzzle_id.sql
+  feature_hidden_preview: select-frontpage-preview-feature-hidden-preview.sql
+
+--- !ChillNode
+name: scorespage
+route: /high-scores/
+template: scorespage.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  content:
+    pagetitle: High Scores
+  page:
+    description: High scores and ranking for players
+    highScores:
+      chill_template: highScores.html.jinja2
+      chill_value: _select-high-scores.sql
+
+--- !ChillNode
+name: puzzleuploadpage
+route: /new-puzzle/<contributor>/
+template: puzzleuploadpage.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  page:
+    description: Create custom puzzles by uploading a picture
+    title: Suggest Image for a Puzzle
+  route: _select-args-for-uploadpage.sql
+
+--- !ChillNode
+name: puzzlepage
+route: /puzzle/<puzzle_id>/scale/<int:scale>/
+template: puzzlepage.html.jinja2
+value:
+  args: _select-args-for-puzzlepage.sql
+  content: _select-frontpage-pageimage-url.sql
+  canonical_path: /
+  page:
+    description: puzzle assembly
+    info: _frontpage-page-info-for-puzzle_id.sql
+  parent_of_top_left: _select-puzzle-piece-top-left-parent.sql
+  preview_full: _select-puzzle-resources-preview_full-by-puzzle_id.sql
+  feature_hidden_preview: select-frontpage-preview-feature-hidden-preview.sql
+  puzzle: _select-puzzle-by-puzzle_id.sql
+  puzzle_files: _select-puzzle-resources-by-puzzle_id.sql
+
+--- !ChillNode
+name: profilepage
+route: /player/
+template: profilepage.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  pagetitle: Player Profile
+  content:
+    description: Settings for the logged in player on the Puzzle Massive site.
+
+--- !ChillNode
+name: biticonspartial
+route: /bit-icons/<iconname>/
+template: bit-icons-img.html.jinja2
+value: _select-iconname-for-route.sql
+
+--- !ChillNode
+name: bit_icons_attribution_partial
+route: /bit-icons-attribution/<iconname>/
+template: bit-icons-attribution.html.jinja2
+value: _select-bit-icon-attribution-for-iconname.sql
+
+--- !ChillNode
+name: footerpages_item
+route: /credits/
+template: docs.html.jinja2
+value:
+  canonical_path: /d/credits/
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  page:
+    description: List of people who put this site together
+    title: Credits
+  content: creditspage-content.html
+  order: '50'
+  slug: credits
+  title: Credits
+
+--- !ChillNode
+name: internal_bit_icon_artists_credit
+route: /internal/bit-icon-artists-credit/
+template: bit-icon-artists-credit.html.jinja2
+value:
+  artist_list: _select-all-bit-icon-artists.sql
+
+--- !ChillNode
+name: bit_icons_artist
+route: /bit-icons-artist/<slug_name>/
+template: bit-icons-artist-page.html.jinja2
+value:
+  artist: _select-bit-icon-artist-for-slug.sql
+  bit_icons: _select-bit-icons-for-artist-slug.sql
+
+
+--- !ChillNode
+name: homepage
+route: /front/
+template: front.html.jinja2
+value:
+  canonical_path: /
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  description_txt_file: sitewide-description.txt
+  page:
+    content: frontpage-content.html
+    description: ' Massively Multiplayer Online Jigsaw Puzzles'
+    title: Massively Multiplayer Online Jigsaw Puzzles
+    info: _homepage-page-info-for-most-recent-active-puzzle.sql
+--- !ChillNode
+name: api_front_for_puzzle_id
+route: /api/front/<puzzle_id>/
+template: frontpage.html.jinja2
+value:
+  preview:
+    chill_template: preview.html.jinja2
+    chill_value:
+      recent: _select-frontpage-preview.sql
+      feature_hidden_preview: select-frontpage-preview-feature-hidden-preview.sql
+  puzzle_id: _route-pass-puzzle_id.sql
+--- !ChillNode
+name: admin_puzzle_page
+route:
+  method: GET
+  path: /admin/puzzle/
+  weight: 1
+template: admin-puzzlepage.html.jinja2
+value:
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+--- !ChillNode
+name: admin_puzzle_page_active
+route: /admin/puzzle/active/
+template: admin-puzzlepage.html.jinja2
+value:
+  slug: active
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+  puzzles: _select-admin-puzzles-active.sql
+--- !ChillNode
+name: admin_puzzle_page_in_queue
+route: /admin/puzzle/in_queue/
+template: admin-puzzlepage.html.jinja2
+value:
+  slug: in_queue
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+  puzzles: _select-admin-puzzles-in_queue.sql
+--- !ChillNode
+name: admin_puzzle_page_instances
+route: /admin/puzzle/instances/
+template: admin-puzzlepage.html.jinja2
+value:
+  slug: instances
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+  puzzles: _select-admin-puzzle-instances.sql
+--- !ChillNode
+name: admin_puzzle_page_completed
+route: /admin/puzzle/completed/
+template: admin-puzzlepage.html.jinja2
+value:
+  slug: completed
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+  puzzles: _select-admin-puzzles-completed.sql
+--- !ChillNode
+name: admin_puzzle_page_submitted
+route: /admin/puzzle/submitted/
+template: admin-puzzlepage.html.jinja2
+value:
+  slug: submitted
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+  puzzles: _select-admin-puzzles-needs-moderation.sql
+--- !ChillNode
+name: admin_puzzle_page_renderqueue
+route: /admin/puzzle/renderqueue/
+template: admin-puzzlepage.html.jinja2
+value:
+  slug: renderqueue
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+  puzzles: _select-admin-puzzles-render.sql
+--- !ChillNode
+name: admin_puzzle_page_suggested
+route: /admin/puzzle/suggested/
+template: admin-puzzlepage.html.jinja2
+value:
+  slug: suggested
+  admin_puzzle_menu:
+    puzzle_status_count: _select-puzzle-status-count.sql
+  puzzles: _select-admin-puzzles-suggested.sql
+--- !ChillNode
+name: admin_puzzle_page_suggested_add
+route: /admin/puzzle/suggested/<puzzle_id>/
+template: admin-puzzle-suggested-page.html.jinja2
+value:
+  page:
+    description: Manage suggested puzzle data
+    title: Suggested Puzzle
+  puzzle: _select-suggested-puzzle-by-puzzle_id.sql
+  feature_hidden_preview: select-frontpage-preview-feature-hidden-preview.sql
+  feature_secret_message: select-secret-message-for-puzzle_id.sql
+--- !ChillNode
+name: admin_puzzle_page_unsplash_batch_add
+route: /admin/puzzle/unsplash-batch/
+template: admin-puzzle-unsplash-batch-page.html.jinja2
+value:
+  page:
+    description: Add Unsplash images for puzzles
+    title: Unsplash Batch Add
+--- !ChillNode
+name: suggested_puzzle_thank_you_page
+route: /suggested-puzzle-thank-you/
+template: docs.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  content: suggested-puzzle-thank-you-content.html
+  page:
+    description: Thank you page shown after player has suggested an image for a puzzle.
+    title: Thank You
+  title: Thank You
+--- !ChillNode
+name: internal_attribution_for_id
+route: /internal/attribution/<int:attribution_id>/
+template: attribution.html.jinja2
+value:
+  attribution: _select_attribution_for_id.sql
+  attribution_id: _route_pass_attribution_id.sql
+
+--- !ChillNode
+name: puzzleimagepickerpage
+route: /puzzle-list/
+template: puzzleimagepickerpage.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  page:
+    description: Find a jigsaw puzzle by searching through all existing puzzles on the Puzzle Massive site.
+    title: Available Puzzle Images
+  public_image_count: select_total_puzzle_image_count.sql
+
+--- !ChillNode
+name: puzzleinstanceformpage
+route: /create-puzzle-instance/<puzzle_id>/
+template: puzzleinstancepage.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  page:
+    description: Create a new puzzle instance from the image.
+    title: Create New Instance of a Puzzle
+  puzzle: _select-frontpage-preview.sql
+  feature_hidden_preview: select-frontpage-preview-feature-hidden-preview.sql
+  route: _route-pass-puzzle_id.sql
+--- !ChillNode
+name: internal_player_bit_for_id
+route: /internal/player-bit/<int:player_id>/
+template: player-bit.html.jinja2
+value:
+  bit: select-bit-icon-for-player-id.sql
+  player_id: route-pass-player-id.sql
+
+--- !ChillNode
+name: admin_player_page
+route: /admin/player/
+template: admin-playerpage.html.jinja2
+value:
+  players: select-players.sql
+  page: route-pass-index.sql
+  email: route-pass-email.sql
+
+
+--- !ChillNode
+name: admin_player_details_page
+route: /admin/player/details/<int:player_id>/
+template: admin-playerdetailspage.html.jinja2
+value:
+  player: select-admin-player-details-for-player-id.sql
+  player_id: route-pass-player-id.sql
+
+--- !ChillNode
+name: playerpuzzlelistpage
+route: /player-puzzle-list/
+template: playerpuzzlelistpage.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  page:
+    description: Puzzle instances that are owned by the current player
+    title: Player Puzzle List
+
+--- !ChillNode
+name: newplayerpage
+route: /new-player/
+template: newplayerpage.html.jinja2
+value:
+  pageimagemedia: puzzle-massive-logo-primary-on-white--1200x630.jpg
+  pageimagemedia_width: 1200
+  pageimagemedia_height: 630
+  description_txt_file: sitewide-description.txt
+  page:
+    description: Welcome new player. Browser cookies are used for player logins.  If you are seeing this page, then the browser you are currently using did not have a browser cookie set for this site. One should now be set in your browser.
+    title: Massively Multiplayer Online Jigsaw Puzzles
+
+  next: route-pass-new-player-next.sql
+
+--- !ChillNode
+name: admin_name_register_review_page
+route: /admin/name-register-review/
+template: admin-name_register-review-page.html.jinja2
+value:
+  unapproved_names: select-name-on-name-register-to-review.sql
+
+--- !ChillNode
+name: claim_player_by_token_page
+route: /claim-player/<token>/
+template: claim-player-by-token.html.jinja2
+value:
+  content:
+    pagetitle: Claim Player
+    description: For players following a claim player by token link in their e-mail.  This is used for switching a player from a shareduser to a user account.  It is also for verifying an e-mail address for that player.
+  email_verify_token: _select-email-verify-token-for-route.sql
+
+--- !ChillNode
+name: reset_login_by_token_page
+route: /reset-login/<token>/
+template: reset-login-by-token.html.jinja2
+value:
+  content:
+    pagetitle: Reset Login
+    description: For players following a reset login by token link in their e-mail.
+  reset_login_token: _select-reset-login-token-for-route.sql
+

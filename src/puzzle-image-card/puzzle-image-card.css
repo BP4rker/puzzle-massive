@@ -1,0 +1,186 @@
+@import "../site/viewport-breakpoints.css";
+.pm-PuzzleImageCard {
+}
+.pm-PuzzleImageCard--card {
+}
+.pm-PuzzleImageCard--inline {
+}
+
+.pm-PuzzleImageCard-activePlayerCount {
+  display: block;
+}
+.pm-PuzzleList--card .pm-PuzzleImageCard-activePlayerCount {
+  color: var(--color-accent);
+  min-height: 1.4em;
+  margin-left: 8px;
+}
+
+.pm-PuzzleList--inline .pm-PuzzleImageCard-activePlayerCount {
+  background-color: inherit;
+  color: inherit;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-top-left-radius: 3px;
+  text-align: left;
+  border-left: 1px solid var(--color-light);
+  border-top: 1px solid var(--color-light);
+}
+
+.pm-PuzzleImageCard-puzzleLink {
+  border: 3px solid transparent;
+  border-radius: 5px;
+  display: block;
+  color: var(--color-light-light);
+  text-decoration: none;
+  position: relative;
+  background-color: var(--color-primary);
+}
+.pm-PuzzleImageCard-puzzleLink:active,
+.pm-PuzzleImageCard-puzzleLink:focus,
+.pm-PuzzleImageCard-puzzleLink:hover {
+  box-shadow: 0 0 0 1px var(--color-light-light),
+    0px 0px 0px 3px var(--color-accent);
+}
+.pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:active,
+.pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:focus,
+.pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:hover {
+  box-shadow: none;
+}
+@media (--md-viewport) {
+  .pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:active,
+  .pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:focus,
+  .pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:hover {
+    box-shadow: 0 0 0 1px var(--color-light-light),
+      0px 0px 0px 3px var(--color-accent);
+  }
+}
+@media (--lg-viewport) {
+  .pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:active,
+  .pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:focus,
+  .pm-PuzzleList--inline .pm-PuzzleImageCard-puzzleLink:hover {
+    box-shadow: 0 0 0 1px var(--color-light-light),
+      0px 0px 0px 3px var(--color-accent);
+  }
+}
+
+.pm-PuzzleImageCard-puzzleLink.isRecent {
+  background-color: var(--color-accent);
+}
+.pm-PuzzleImageCard-puzzleLink.isActive {
+}
+.pm-PuzzleImageCard-puzzleLink.isComplete {
+  background-color: var(--color-dark);
+}
+.pm-PuzzleImageCard-puzzleLink.isQueue {
+  background-color: var(--color-primary-dark);
+}
+.pm-PuzzleImageCard-puzzleLink.notAvailable {
+  background-color: var(--color-dark-dark);
+  opacity: 0.6;
+}
+.pm-PuzzleImageCard-puzzleLink.notAvailable:active,
+.pm-PuzzleImageCard-puzzleLink.notAvailable:focus,
+.pm-PuzzleImageCard-puzzleLink.notAvailable:hover {
+  opacity: 1;
+}
+.pm-PuzzleImageCard--inline .pm-PuzzleImageCard-puzzleLink {
+  border: 2px solid transparent;
+  border-radius: 0;
+}
+@media (--md-viewport) {
+  .pm-PuzzleImageCard--inline .pm-PuzzleImageCard-puzzleLink {
+    border: 3px solid transparent;
+    border-radius: 5px;
+  }
+}
+@media (--lg-viewport) {
+  .pm-PuzzleImageCard--inline .pm-PuzzleImageCard-puzzleLink {
+    border: 3px solid transparent;
+    border-radius: 5px;
+  }
+}
+
+.pm-PuzzleImageCard-image {
+  object-fit: cover;
+  width: 100%;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid var(--color-light);
+}
+.pm-PuzzleImageCard-imageUnknown {
+  width: 100%;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid var(--color-light);
+}
+
+.pm-PuzzleImageCard-pieceCount {
+  background-color: inherit;
+  color: inherit;
+  padding: 5px;
+}
+.pm-PuzzleImageCard--inline .pm-PuzzleImageCard-pieceCount {
+  padding: 0px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-bottom-right-radius: 3px;
+  padding-right: 4px;
+  min-width: 26px;
+  text-align: right;
+  border-right: 1px solid var(--color-light);
+  border-bottom: 1px solid var(--color-light);
+}
+.pm-PuzzleImageCard-pieceCountAmount {
+}
+.pm-PuzzleImageCard-pieceCountLabel {
+}
+.pm-PuzzleImageCard--inline .pm-PuzzleImageCard-pieceCountLabel {
+  display: none;
+}
+
+.pm-PuzzleImageCard-status {
+  display: inline-block;
+  padding: 5px;
+  border-top-left-radius: 5px;
+  background-color: inherit;
+  color: white;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-left: 1px solid var(--color-light);
+  border-top: 1px solid var(--color-light);
+  font-size: smaller;
+}
+.pm-PuzzleImageCard-status:empty {
+  display: none;
+}
+
+.pm-PuzzleImageCard-timeSince {
+  font-size: smaller;
+}
+.pm-PuzzleImageCard-timeSinceLabel {
+  opacity: 0.6;
+}
+.pm-PuzzleImageCard-timeSinceAmount {
+}
+
+.pm-PuzzleImageCard-infoMessage {
+  font-size: smaller;
+}
+
+.pm-PuzzleImageCard-oneWordAttr {
+  font-size: smaller;
+  font-weight: bold;
+  display: inline-block;
+}
+.pm-PuzzleImageCard-oneWordAttr + .pm-PuzzleImageCard-oneWordAttr {
+  margin-left: 2em;
+}
+.pm-PuzzleImageCard-oneWordAttr--unlisted {
+  color: var(--designtoken-TextColor-accentOnSurface);
+}
+.pm-PuzzleImageCard-oneWordAttr--instance {
+  color: var(--designtoken-TextColor-tertiaryOnSurface);
+}

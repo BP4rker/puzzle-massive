@@ -1,0 +1,109 @@
+{% extends 'admin-base.html.jinja2' %}
+
+{% block main %}
+suggested puzzle {{puzzle.puzzle_id}}
+
+<p>
+  Player <pm-player-bit player="{{ puzzle.owner }}"></pm-player-bit> ({{ puzzle.owner }}) has suggested this puzzle.
+</p>
+<p>
+  <a rel="noreferrer nofollow" href="{{ puzzle.link }}">{{ puzzle.link }}</a>
+</p>
+
+<form enctype="multipart/form-data" id="upload_puzzle" method="post" action="/newapi/admin/puzzle/promote-suggested/">
+  <input type="hidden" name="puzzle_id" value="{{ puzzle.puzzle_id }}">
+  <div class="pm-UploadForm">
+
+    <div class="pm-UploadForm-row">
+      <label for="permission">
+        Unlisted
+      </label>
+      <div>
+        <input type="checkbox" id="permission" name="permission" value="-1" {% if puzzle.permission == -1 %}checked{% endif %}>
+        <p>
+          Check this box to <em>not</em> have this puzzle publicly listed on the site.
+        </p>
+      </div>
+    </div>
+
+    <div class="pm-UploadForm-row">
+      <label for="pieces">
+        Piece Count
+      </label>
+      <div>
+        <input type="number"
+               min="{{ config.MINIMUM_PIECE_COUNT }}"
+               max="{{ config.MAXIMUM_PIECE_COUNT }}"
+               id="pieces" name="pieces" value="{{ puzzle.pieces }}">
+      </div>
+    </div>
+    <div class="pm-UploadForm-row">
+      <label for="bg_color">
+        Background Color
+      </label>
+      <input id="bg_color" class="jscolor pm-UploadForm-colorPicker u-textCenter" type="text" name="bg_color" value="{{ puzzle.bg_color }}">
+    </div>
+
+    {% if 'hidden-preview' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+    <div class="pm-UploadForm-row">
+      <label for="feature-hidden-preview">
+        Hide Preview Image
+      </label>
+      <div>
+        <input {% if feature_hidden_preview %}checked{% endif %} type="checkbox" id="feature-hidden-preview" name="features" value="hidden-preview">
+        <p>
+          Check this box to hide the preview image.  Any links to the original puzzle image will also not show until after the puzzle is complete.
+        </p>
+      </div>
+    </div>
+    {% endif %}
+
+    {# TODO: Secret message not fully implemented.
+    {% if 'secret-message' in config.PUZZLE_FEATURES or 'all' in config.PUZZLE_FEATURES %}
+    <div class="pm-UploadForm-row">
+      <label for="feature-secret-message">
+        Secret Message
+      </label>
+      <div>
+        <input id="feature-secret-message" type="checkbox" name="features" value="secret-message" {% if feature_secret_message.message %}checked{% endif %}>
+        <p>
+          <label for="secret-message">
+          Add a message to show to players when they complete the puzzle.
+          </label>
+        </p>
+        <textarea maxlength="1000" id="secret-message" name="secret_message">{{ feature_secret_message.message }}</textarea>
+      </div>
+    </div>
+    {% endif %}
+    #}
+
+    <div class="pm-UploadForm-row">
+      <label for="link">The website that the image is found on.</label>
+      <div>
+        <input id="link-field" style="width:100%" type="text" name="link" value="{{ puzzle.link }}" placeholder="https://unsplash.com/photos/4nr59MLWI9E" maxlength="1000">
+        {% if not config.UNSPLASH_APPLICATION_ID %}
+        <p>
+          <strong>This site is not set up to use the Unsplash API.</strong>
+        </p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="pm-UploadForm-row">
+      <label class="u-block" for="description">Description</label>
+      <textarea id="description" name="description" maxlength="1000">{{ puzzle.description }}</textarea>
+    </div>
+    <div class="pm-UploadForm-row">
+      <label for="upload_file">Select an image for the puzzle</label>
+      <div>
+        <input type="file" name="upload_file" accept=".jpg,.jpeg">
+        <p>
+        <em>Only if not a picture from Unsplash</em>
+        </p>
+      </div>
+    </div>
+    <div class="u-textRight">
+      <input class="button" type="submit" name="save" value="Create Puzzle" />
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,19 @@
+.pm-HashColor {
+  display: block;
+}
+
+.pm-HashColor-field {
+}
+
+.pm-HashColor-inputColor {
+}
+
+.pm-HashColor-inputText {
+  width: 6em;
+}
+
+/* hacky way of targeting the jscolor wrap element that is appended to body */
+.on-module-puzzlepage > div[style*="z-index: 1000"][style*="clear: both"] {
+  /* Prevent the overflow off the page when opened on the scaled puzzle page */
+  transform: translateX(-100%);
+}

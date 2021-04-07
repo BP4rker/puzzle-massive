@@ -1,0 +1,36 @@
+@import "../site/viewport-breakpoints.css";
+
+.pm-Frontpage {
+}
+.pm-Base-main > .pm-Frontpage {
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.pm-Frontpage > * + * {
+  margin-top: 13px;
+}
+
+.pm-Frontpage-grid {
+}
+
+.pm-Frontpage-grid > * + * {
+  margin-top: 13px;
+}
+
+/* preview and gallery */
+.pm-Frontpage-gridA {
+}
+
+/* aux gallery */
+.pm-Frontpage-gridB {
+}
+
+.pm-Frontpage-sectionHeader {
+}
+
+/* other content */
+.pm-Frontpage-gridC {
+}

@@ -1,0 +1,109 @@
+pm-filter-group {
+  display: block;
+}
+
+.pm-FilterGroup {
+  /* fieldset */
+  cursor: not-allowed;
+}
+.pm-FilterGroup--interval {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.5;
+}
+.pm-FilterGroup--checkbox {
+}
+.pm-FilterGroup--radio {
+}
+.pm-FilterGroup.isEnabled {
+  cursor: pointer;
+}
+.pm-FilterGroup--interval.isEnabled {
+  opacity: 1;
+}
+
+.pm-FilterGroup-legend {
+}
+
+.pm-FilterGroup-label {
+  white-space: nowrap;
+  display: inline-block;
+}
+.pm-FilterGroup-label + .pm-FilterGroup-label {
+  margin-left: 15px;
+}
+
+.pm-FilterGroup--interval .pm-FilterGroup-label {
+  cursor: pointer;
+  margin: 0;
+  text-align: center;
+  min-width: 4em;
+  display: block;
+  float: left;
+  height: calc(2em + 2 * 5px);
+}
+
+.pm-FilterGroup-input {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.pm-FilterGroup--interval .pm-FilterGroup-input {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+}
+
+.pm-FilterGroup-text {
+  font-size: small;
+}
+.pm-FilterGroup--interval .pm-FilterGroup-text {
+  display: block;
+  background-color: var(--color-dark-light);
+  color: var(--color-dark-dark);
+  padding: 4px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+.pm-FilterGroup--interval .pm-FilterGroup-input:checked + .pm-FilterGroup-text {
+  background-color: var(--color-accent);
+  border: 1px solid black;
+}
+.pm-FilterGroup--interval.isEnabled
+  .pm-FilterGroup-input:disabled
+  + .pm-FilterGroup-text {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  border-color: var(--color-dark-dark);
+  border-radius: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-top-width: 5px;
+  border-top-color: white;
+  border-bottom-width: 5px;
+  border-bottom-color: white;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+.pm-FilterGroup--interval.isEnabled
+  .pm-FilterGroup-label:hover
+  .pm-FilterGroup-text,
+.pm-FilterGroup--interval.isEnabled
+  .pm-FilterGroup-input:focus
+  + .pm-FilterGroup-text {
+  outline: 4px dotted var(--color-dark-dark);
+  z-index: 3;
+  position: relative;
+}
+.pm-FilterGroup--interval.isEnabled
+  .pm-FilterGroup-label:hover
+  .pm-FilterGroup-input:disabled
+  + .pm-FilterGroup-text {
+  outline: 0;
+}

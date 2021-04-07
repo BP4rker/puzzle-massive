@@ -1,0 +1,61 @@
+pm-dot-require {
+  visibility: hidden;
+}
+
+.pm-DotRequire {
+  visibility: visible;
+  display: inline;
+}
+
+/* Don't display is dotted content. */
+.pm-DotRequire--none {
+}
+.pm-DotRequire--none.is-dotted {
+  display: none;
+}
+
+/* Hide content if is dotted. */
+.pm-DotRequire--hidden {
+}
+.pm-DotRequire--hidden.is-dotted {
+  visibility: hidden;
+}
+
+/* Blur the content if is dotted. */
+.pm-DotRequire--blur {
+}
+
+.pm-DotRequire--blur.is-dotted {
+  position: relative;
+  z-index: -1;
+  box-shadow: 0 0 9px 10px var(--color-light-accent);
+}
+
+.pm-DotRequire--blur.is-dotted::before {
+  color: var(--color-light);
+  background-color: var(--color-dark);
+  content: "More dots are needed for this.";
+}
+.pm-DotRequire--blur.is-dotted::after {
+  display: inline-flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: hsla(0, 0%, 100%, 0.5);
+  font-size: 300%;
+  line-height: 1.5em;
+  text-align: center;
+  text-indent: 0.1em;
+  text-shadow: 0 0 5px white, 0 0 2px white;
+  content: "";
+}
+
+/* Show info message if is-dotted. */
+.pm-DotRequire--info {
+  visibility: hidden;
+}
+.pm-DotRequire--info.is-dotted {
+  visibility: visible;
+}

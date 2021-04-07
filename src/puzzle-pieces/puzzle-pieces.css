@@ -1,0 +1,287 @@
+.pm-PuzzlePieces {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  color: white;
+}
+
+.p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-repeat: no-repeat;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.96, -0.08, 0.71, -0.53);
+  transition-duration: 1.2s;
+}
+.pm-PuzzlePieces.show-movable .p {
+  box-shadow: 0 0 0px 10px rgba(0, 0, 0, 0.5),
+    0 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+.pm-PuzzlePieces-collection.is-waitingOnMoveRequest .p {
+  transition-duration: 0s;
+}
+.pm-PuzzlePieces-collection.is-waitingOnMoveRequest .is-shadowed.p {
+  transition-duration: 0.6s;
+  transition-timing-function: linear;
+}
+
+.is-active.p {
+  transition-duration: 0s;
+}
+.pm-PuzzlePieces-collection.is-waitingOnMoveRequest .is-shadowed.is-active.p {
+  transition-duration: 0s;
+}
+/*
+.p--dark.is-active.p {
+}
+
+.p--light.is-active.p {
+}
+*/
+.p::before,
+.p::after {
+}
+
+.is-pending.p,
+.pm-PuzzlePieces.show-movable .is-pending.p {
+  z-index: 13;
+}
+.is-pending.p::before {
+  pointer-events: none;
+  color: currentColor;
+  width: 1em;
+  height: 1em;
+  font-size: 32px;
+  content: "";
+  transform: translate(-1em, -1em);
+  border-radius: 22%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  background-color: currentColor;
+  opacity: 0.5;
+}
+.is-pending.p::after {
+  pointer-events: none;
+  color: currentColor;
+  width: 1em;
+  height: 1em;
+  font-size: 32px;
+  content: "…";
+  line-height: 0.5;
+  font-weight: bold;
+  text-align: center;
+  transform: translate(-1em, -1em);
+  border-radius: 20%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  filter: invert(1);
+  opacity: 0.8;
+}
+
+.is-immovable.p {
+  z-index: 9;
+  pointer-events: none;
+}
+
+.pm-PuzzlePieces.show-movable .is-immovable.p {
+  box-shadow: none;
+}
+
+.is-up.p,
+.is-down.p {
+  z-index: 14;
+}
+
+.is-up.p::before,
+.is-down.p::before {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  transform: translate(-1em, -1em);
+  border: 3px solid currentColor;
+  background-color: black;
+  width: 0.8em;
+  height: 0.8em;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.is-up.p::before {
+  border-radius: 50%;
+  color: green;
+  content: "+";
+}
+
+.is-down.p::before {
+  border-radius: 5%;
+  color: red;
+  content: "-";
+}
+
+.is-dragging.p {
+  transition-duration: 0s;
+  z-index: 15;
+}
+
+.pm-PuzzlePieces.show-movable .is-dragging.p {
+  z-index: 15;
+  box-shadow: 0px 0px 100px 0px currentColor;
+}
+.is-dragging.p::before {
+  pointer-events: none;
+  box-sizing: border-box;
+  color: currentColor;
+  width: calc(1em - 6px);
+  height: calc(1em - 6px);
+  font-size: 32px;
+  content: "";
+  transform: translate(-1em, -1em);
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  display: block;
+  background-color: currentColor;
+  opacity: 0;
+  animation-duration: 0.7s;
+  animation-iteration-count: 1;
+  animation-name: showTap;
+}
+.is-dragging.p::after {
+  pointer-events: none;
+  border: 6px solid currentColor;
+  color: currentColor;
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  font-size: 32px;
+  content: "";
+  line-height: 1;
+  text-align: center;
+  transform: translate(-1em, -1em);
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  filter: invert(1);
+  opacity: 0;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-name: showTap;
+}
+@keyframes showTap {
+  from {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* shadowPiece */
+.s {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 8;
+  transition: none;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 1;
+}
+.s.s {
+  background: var(--pm-PuzzlePieces-shadowColor);
+  filter: brightness(85%) blur(5px);
+}
+
+.pm-PuzzlePieces-collection {
+}
+.pm-PuzzlePieces-collection.is-waitingOnMoveRequest {
+}
+
+.pm-PuzzlePieces-dropZone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+/* The width, height, left, and top is set by puzzle CSS. */
+/* [id=puzzle-outline] */
+.pm-PuzzlePieces-outlineContainer {
+  position: absolute;
+}
+.pm-PuzzlePieces-outlineContainer::before {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  opacity: 0.2;
+}
+.pm-PuzzlePieces-outline {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  outline: 1px solid black;
+  border: 1px solid white;
+  pointer-events: none;
+}
+.pm-PuzzlePieces-outlineTop {
+  position: absolute;
+  top: -50%;
+  left: 0;
+  height: 50%;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  overflow: hidden;
+}
+.pm-PuzzlePieces-outlineTopContent {
+  flex: 1 1;
+}
+.pm-PuzzlePieces-outlineBottom {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  height: 50%;
+  overflow: hidden;
+  width: 100%;
+}
+.pm-PuzzlePieces-outlineBottomContent {
+}
+
+.pm-PuzzlePieces-selected {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  flex-wrap: wrap;
+  border: 4px solid blue;
+}
+
+.pm-PuzzlePieces-selected > * {
+  position: static;
+}

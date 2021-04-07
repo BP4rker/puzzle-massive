@@ -1,0 +1,27 @@
+{% extends 'base.html.jinja2' %}
+
+  {% block secondarymenu %}
+    <a class="Button Button--plain" href="/chill{{ url_for('.page_uri', uri='player') }}">
+      Player Profile
+    </a>
+    <span class="Button Button--plain is-disabled">
+      Your Puzzles
+    </span>
+  {% endblock %}
+
+{% block main %}
+
+<div class="pm-PuzzleListPage">
+
+  <section>
+    <h1>Player Puzzle List</h1>
+
+    <div class="pm-PuzzleListPage-listing">
+      <pm-player-puzzle-image-picker front-fragment-href="/chill{{ url_for('.page_uri', uri='front') }}"></pm-player-puzzle-image-picker>
+    </div>
+
+  </section>
+
+</div>
+
+{% endblock %}
