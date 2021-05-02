@@ -11,6 +11,7 @@ import "../puzzle-alert";
 import "../puzzle-latency";
 import "../hash-color";
 import "../toggle-movable-pieces";
+//import "../puzzle-time";
 import "./puzzlepage.css";
 
 // Patch in the old PuzzlePreviewBox

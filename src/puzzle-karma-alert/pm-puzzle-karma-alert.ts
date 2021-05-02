@@ -26,7 +26,8 @@ customElements.define(
     private karma: number = 1;
     private karmaLevel: number = 2;
 
-    constructor() {
+    constructor()
+    {
       super();
       this.instanceId = PmPuzzleKarmaAlert._instanceId;
 

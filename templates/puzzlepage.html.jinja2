@@ -219,7 +219,7 @@
         <div class="u-paddingLeftXs u-marginLeftAuto">
           {%- if puzzle.status in (ACTIVE, BUGGY_UNLISTED) %}
           <pm-puzzle-latency puzzle-id="{{ puzzle.puzzle_id }}"></pm-puzzle-latency>
-          <pm-puzzle-time puzzle-id="{{ puzzle.puzzle_id }}"></pm-puzzle-time>
+          <!--<puzzle-time puzzle-id="{{ puzzle.puzzle_id }}"></puzzle-time> -->
           {%- endif %}
         </div>
         {% endif %}
